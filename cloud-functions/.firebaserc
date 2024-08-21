@@ -1,5 +1,12 @@
 {
   "projects": {
-    "default": "squirl-blankly-slate"
-  }
+    "default": "blankly-135b6"
+  },
+  "targets": {},
+  "etags": {
+    "blankly-135b6": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
 }
