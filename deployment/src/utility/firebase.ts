@@ -9,14 +9,24 @@ const client = new SecretManagerServiceClient();
 
 async function initializeFirebase () {
     // Use the secret manager to first get the project ID and then the API key
-    process.env.PROJECT_ID = await client.getProjectId()
-    admin.initializeApp();
-    process.env.API_KEY = await getKey(client, process.env.PROJECT_ID,'API_KEY')
-    process.env.URL_MODEL_EVENTS_API = await getKey(client, process.env.PROJECT_ID, 'URL_MODEL_EVENTS_API')
-    process.env.CLOUD_SCHEDULER_SECRET = await getKey(client, process.env.PROJECT_ID, "CLOUD_SCHEDULER_SECRET")
+    try {
+        console.log("Initializing Firebase")
+        process.env.PROJECT_ID = await client.getProjectId()
+        console.log("Project ID: ", process.env.PROJECT_ID)
+        process.env.GOOGLE_CLOUD_PROJECT = process.env.PROJECT_ID
+        process.env.CLOUDSDK_CORE_PROJECT = process.env.PROJECT_ID
+
+        admin.initializeApp();
+        process.env.API_KEY = await getKey(client, process.env.PROJECT_ID,'API_KEY')
+        process.env.URL_MODEL_EVENTS_API = await getKey(client, process.env.PROJECT_ID, 'URL_MODEL_EVENTS_API')
+        process.env.CLOUD_SCHEDULER_SECRET = await getKey(client, process.env.PROJECT_ID, "CLOUD_SCHEDULER_SECRET")
+    } catch (error) {
+        console.error("Error initializing Firebase: ", error)
+    }
 }
 
 async function getDoc (path: string): Promise<any> {
+    console.warn('getting doc: Path:', path)
     const doc: admin.firestore.DocumentSnapshot = await admin.firestore().doc(path).get();
     return { id: doc.id, ...doc.data(), exists: doc.exists };
 }
@@ -41,7 +51,9 @@ async function deleteCollection(collectionPath: string) {
 }
 
 async function deleteData(path: string) {
-    return admin.database().ref(path).remove()
+    const database = admin.database()
+    console.log(database)
+    // return database.ref(path).remove()
 }
 
 async function querySingleDocEquals (collectionPath: string, field: string, key: any) {
@@ -56,7 +68,7 @@ async function querySingleDocEquals (collectionPath: string, field: string, key:
 
 async function getCollection (path: string) {
     const doc = await admin.firestore().collection(path).get();
-    return doc.docs.map((item) => {
+    return doc.docs.map((item: any) => {
         return { id: item.id, ...item.data() };
     });
 }

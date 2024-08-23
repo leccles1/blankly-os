@@ -81,6 +81,7 @@ router.post('/details', async (req: Request, res: Response) => {
 });
 
 router.post('/create-model', async (req: Request, res: Response) => {
+    // console.log(req.body)
     let validity = checkArgs(req.body, createModelArgs)
 
     if (!validity[0]) {
@@ -91,12 +92,11 @@ router.post('/create-model', async (req: Request, res: Response) => {
     if (!(await userCanModifyProject(req.headers.uid as string, req.body.projectId))) {
         return res.status(400).json({error: `Invalid permission.`})
     }
-    const init = mixpanel.init('0b2135a9ea74656218db6e1018e00674');
-    init.track('Model Created', {
-        distinct_id: req.headers.uid,
-        location: 'CLI'
-    })
-
+    // const init = mixpanel.init('0b2135a9ea74656218db6e1018e00674');
+    // init.track('Model Created', {
+    //     distinct_id: req.headers.uid,
+    //     location: 'CLI'
+    // })
     const model = await addDoc(`/projects/${req.body.projectId}/models`, {
         name: req.body.name,
         description: req.body.description,
@@ -190,11 +190,11 @@ router.get('/starter-models', async (req: Request, res: Response) => {
 
 router.post('/list', async (req: Request, res: Response) => {
     let validity = checkArgs(req.body, ['projectId'])
-
+    console.log("Validity:", validity)
     if (!validity[0]) {
         return res.status(400).json({error: `Missing required argument: ${validity[1]}`})
     }
-
+    console.log("headers:", req.headers)
     // Validate that the user is authenticated
     if (!(await userCanModifyProject(req.headers.uid as string, req.body.projectId))) {
         return res.status(400).json({error: `Invalid permission.`})
@@ -202,6 +202,7 @@ router.post('/list', async (req: Request, res: Response) => {
 
     const path = `/projects/${req.body.projectId}/models`;
     const result: any = await getCollection(path);
+    console.log("result:", result)
     let output = []
     for (let i = 0; i < result.length; i++) {
         output.push({

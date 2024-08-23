@@ -13,10 +13,11 @@ const { v4: uuidv4 } = require('uuid');
 import {createHash} from "crypto";
 
 let getPlans = async function(folder: string) {
+    console.log('Folder: ', folder)
     const path = `/plans/${folder}/plans`
 
     const result: { [p: string]: any; id: string }[] = await getCollection(path)
-
+    console.log('Result: ', result)
     let formattedPlans: {[index: string]: any} = {};
 
 
@@ -29,6 +30,7 @@ let getPlans = async function(folder: string) {
             'ram': ram
         }
     })
+    console.log('Formatted plans: ', formattedPlans)
     return formattedPlans
 }
 
@@ -222,7 +224,8 @@ let upload = async function(file: { path: string; destination: string; filename:
     if (process.env.PROJECT_ID == 'blankly-dev') {
         bucketName = 'blankly-dev'
     } else {
-        bucketName = 'artifacts.blankly-6ada5.appspot.com'
+        // bucketName = 'artifacts.blankly-135b6.appspot.com'
+        bucketName = 'blankly-135b6.appspot.com'
     }
 
     let { url, refName, bucket } = await uploadModel(modelFilePath, bucketName);
@@ -261,7 +264,7 @@ let upload = async function(file: { path: string; destination: string; filename:
     });
 
     // Get Artifact Registry img URL and store into Firestore
-    const imgUrl = `us-docker.pkg.dev/${process.env.PROJECT_ID}/models/${projectId.toLowerCase()}-${modelId.toLowerCase()}:${versionId.toLowerCase()}`
+    const imgUrl = `europe-west2-docker.pkg.dev/${process.env.PROJECT_ID}/models/${projectId.toLowerCase()}-${modelId.toLowerCase()}:${versionId.toLowerCase()}`
     const securePromise = setDoc(`/projectSecure/${projectId}/models/${modelId}/versions/${versionId}`, {
         bucketName: bucket,
         createdAt: createdAt,

@@ -1,3 +1,4 @@
+#!/bin/bash
 FILE_PATH="$1"
 PROJECT_ID="$2"
 MODEL_ID="$3"
