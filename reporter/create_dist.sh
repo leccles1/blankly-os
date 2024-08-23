@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir ./dist
 
 zip -r blankly_external ./blankly_external

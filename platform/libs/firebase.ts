@@ -29,15 +29,15 @@ import "firebase/storage";
 
 // @ts-ignore
 const firebaseConfig = {
-  apiKey: "AIzaSyDIGVJmkDdkHER_ShveqRMdMDz9OfKG0Ss",
-  authDomain: "blankly-6ada5.firebaseapp.com",
-  databaseURL: "https://blankly-6ada5.firebaseio.com",
-  projectId: "blankly-6ada5",
-  storageBucket: "blankly-6ada5.appspot.com",
-  messagingSenderId: "77963558433",
-  appId: "1:77963558433:web:0f14077d154b7a8a032d60",
-  measurementId: "G-8XYVLL854V"
-}
+  apiKey: "AIzaSyAVLNicvkhqzL5EEwuFhpj1r_Otj-V1siw",
+  authDomain: "blankly-135b6.firebaseapp.com",
+  databaseURL: "https://blankly-135b6.firebaseio.com",
+  projectId: "blankly-135b6",
+  storageBucket: "blankly-135b6.appspot.com",
+  messagingSenderId: "555011091952",
+  appId: "1:555011091952:web:4254b4022c2434494ec135",
+  measurementId: "G-4ZT5X0FGWD"
+};
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
