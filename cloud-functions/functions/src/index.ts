@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
 import axios from 'axios';
 
-import { Request, Response } from 'express';
-import { generateOpengraphData, OpengraphData } from "./opengraph";
+// import { Request, Response } from 'express';
+// import { OpengraphData } from "./opengraph";
 
 export const addToSubstack = functions.firestore.document('waitlist/{email}').onCreate(async (change, context) => {
     const newSubscriber = change.data();
@@ -26,29 +26,29 @@ export const addToSubstack = functions.firestore.document('waitlist/{email}').on
     return;
 });
 
-const DEFAULT_OPENGRAPH: OpengraphData = {
-    title: 'Blankly Finance',
-    description: 'Build in minutes. Deploy in seconds. Quant workflow reimagined. Algotrading without the headache 🚀',
-    image: 'https://storage.googleapis.com/blankly-6ada5.appspot.com/default-preview.png'
-}
+// const DEFAULT_OPENGRAPH: OpengraphData = {
+//     title: 'Blankly Finance',
+//     description: 'Build in minutes. Deploy in seconds. Quant workflow reimagined. Algotrading without the headache 🚀',
+//     image: 'https://storage.googleapis.com/blankly-6ada5.appspot.com/default-preview.png'
+// }
 
-export const getOpengraphData = functions.https.onRequest((req: Request, res: Response) => {
-    const html = req.query.html === '1'
-    return generateOpengraphData(req, html).then((data) => {
-        if (html) {
-            res.status(200).send(data)
-        } else {
-            res.json(data).end()
-        }
-    }).catch((err) => {
-        console.log(err);
-        if (html) {
-            res.status(200).send('<h1>404</h1>')
-        } else {
-            res.json(DEFAULT_OPENGRAPH).end()
-        }
-    });
-});
+// export const getOpengraphData = functions.https.onRequest((req: Request, res: Response) => {
+//     const html = req.query.html === '1'
+//     return generateOpengraphData(req, html).then((data) => {
+//         if (html) {
+//             res.status(200).send(data)
+//         } else {
+//             res.json(data).end()
+//         }
+//     }).catch((err) => {
+//         console.log(err);
+//         if (html) {
+//             res.status(200).send('<h1>404</h1>')
+//         } else {
+//             res.json(DEFAULT_OPENGRAPH).end()
+//         }
+//     });
+// });
 
 export * from './activity';
 export * from './usage';
