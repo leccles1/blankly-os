@@ -6,8 +6,8 @@ set -e
 ./build_and_push.sh
 
 gcloud run deploy deployment-api \
---image=us-docker.pkg.dev/blankly-dev/deployment-api/deployment-api@sha256:167e48f856f4e520d917d53a80e71a373f2777d9fadb73164999a5bf17366a0d \
+--image=europe-west2-docker.pkg.dev/blankly-135b6/blankly/deployment-api:1 \
 --platform=managed \
---region=us-central1 \
---project=blankly-dev \
+--region=europe-west2 \
+--project=blankly-135b6 \
  && gcloud run services update-traffic deployment-api --to-latest

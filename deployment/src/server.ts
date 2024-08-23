@@ -1,4 +1,7 @@
 import app from './app';
 app.init().then(function () {
-    app.server.listen(parseInt(process.env.PORT || '80'));
+    const port = parseInt(process.env.PORT || '80')
+    app.server.listen(port, () => {
+        console.log('listening on port:', port)
+    })
 })

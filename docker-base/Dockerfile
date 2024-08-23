@@ -19,6 +19,8 @@ WORKDIR /blankly
 RUN pip install pyzmq
 RUN pip install quantstats
 RUN pip install blankly
+RUN if [ "$PY_VERSION" = "3.9" | "$PY_VERSION" = "3.10"] ; then pip install numpy==1.26.3 ; else echo "Normal python install is fine" ; fi
+# RUN pip install numpy==1.26.3
 
 WORKDIR /usr/bin
 # main-linux binary

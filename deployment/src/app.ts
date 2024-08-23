@@ -26,20 +26,20 @@ class App {
     await initKube()
     this.server = express();
 
-    await Sentry.init({
-      dsn: "https://addc5d2ab3c14d44aba46be5529fb1d3@o1151739.ingest.sentry.io/6257005",
-      integrations: [
-        // enable HTTP calls tracing
-        new Sentry.Integrations.Http({ tracing: true }),
-        // enable Express.js middleware tracing
-        new Tracing.Integrations.Express({ app: this.server }),
-      ],
+    // await Sentry.init({
+    //   dsn: "https://addc5d2ab3c14d44aba46be5529fb1d3@o1151739.ingest.sentry.io/6257005",
+    //   integrations: [
+    //     // enable HTTP calls tracing
+    //     new Sentry.Integrations.Http({ tracing: true }),
+    //     // enable Express.js middleware tracing
+    //     new Tracing.Integrations.Express({ app: this.server }),
+    //   ],
 
-      // Set tracesSampleRate to 1.0 to capture 100%
-      // of transactions for performance monitoring.
-      // We recommend adjusting this value in production
-      tracesSampleRate: 1.0,
-    });
+    //   // Set tracesSampleRate to 1.0 to capture 100%
+    //   // of transactions for performance monitoring.
+    //   // We recommend adjusting this value in production
+    //   tracesSampleRate: 1.0,
+    // });
 
     await this.middlewares();
 
@@ -56,8 +56,8 @@ class App {
   }
 
   middlewares() {
-    this.server.use(Sentry.Handlers.requestHandler());
-    this.server.use(Sentry.Handlers.tracingHandler());
+    // this.server.use(Sentry.Handlers.requestHandler());
+    // this.server.use(Sentry.Handlers.tracingHandler());
     this.server.use(express.json());
     this.server.use(cors({
       origin: '*',
@@ -75,6 +75,7 @@ class App {
   
   authwares() {
     this.server.use(function (req: Request, res: Response, next: NextFunction) {
+      console.log(req.path)
       if ('token' in req.headers) {
         const token: string = req.headers.token as string;
         if (token.length > 0) {
@@ -87,6 +88,7 @@ class App {
               next();
             })
             .catch((error) => {
+              console.log(error)
               next(createError(401));
             });
         } else {

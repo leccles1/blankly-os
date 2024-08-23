@@ -100,9 +100,16 @@ async function deployModel (nameSpaceID: string, deployment_config: any): Promis
 }
 
 async function deleteModel (nameSpaceID: string, podName: any): Promise<any> {
-    const deleteJob = k8sApi.deleteNamespacedPod(podName, nameSpaceID.toLowerCase()).catch(function (message: any) {
-        console.log("Pod delete failed")
-    })
+    try {
+        const deleteJob = await k8sApi.deleteNamespacedPod(podName, nameSpaceID.toLowerCase());
+        return deleteJob;
+    } catch (error) {
+        if (error.response && error.response.statusCode === 404) {
+            console.log(`Pod ${podName} not found in namespace ${nameSpaceID}. It may have already been deleted.`);
+            return null;
+        }
+        throw error;
+    }
 }
 
 async function startScreenerDeployment (nameSpaceID: string, deployment_config: any): Promise<any> {

@@ -4,7 +4,7 @@ import sys
 if __name__ == "__main__":
     # Init firebase with your credentials
     cred = credentials.Certificate("./key.json")
-    initialize_app(cred, {'storageBucket': 'blankly-6ada5.appspot.com'})
+    initialize_app(cred, {'storageBucket': 'blankly-135b6.appspot.com'})
 
     # Put your local file path
     fileName = "./dist/blankly_external.zip"

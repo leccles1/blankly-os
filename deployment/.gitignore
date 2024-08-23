@@ -7,3 +7,4 @@ uploads/*
 .idea
 .vscode
 GCP_TEMP_KEYS.json
+blankly-dev.json
